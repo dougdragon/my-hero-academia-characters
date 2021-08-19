@@ -1,0 +1,132 @@
+<html>
+  <head>
+    <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.2/dist/css/uikit.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.2/dist/js/uikit.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.2/dist/js/uikit-icons.min.js"></script> -->
+    <script src="paginatedFetch.js"></script>
+  </head>
+  <body>
+    <center>
+      <div id="spinner" uk-spinner="ratio: 4" class="uk-margin-large-top"></div>
+      <div id="wrapper"></div>
+        <!--
+        <div id="characters" style="visibility: hidden;">
+          <table id="table" border="1" class="uk-table uk-table-divider"> <!--style="table-layout: fixed;"
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Quirk</th>
+                <th>Description</th>
+                <th>Birthday</th>
+                <th>Images</th>
+              </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+      </div> -->
+    </center>
+    <script>
+      const hideSpinner = () => document.getElementById("spinner").style.display = "none";
+      const getResults = async () => {
+        return paginatedFetch();
+      }
+
+      getResults().then((value) => {
+        hideSpinner();
+        new gridjs.Grid({
+          columns: [
+            {
+              name: 'Name',
+              formatter: (cell) => cell ? gridjs.html(`<b>${cell}</b>`) : null
+            },
+            'Quirk',
+            'Description',
+            'Birthday',
+            'Images',
+            // {
+            //   name: 'Images',
+            //   formatter: (cell) => {
+            //     let newArray = [];
+            //     cell.forEach((element, index) => {
+            //       let tempArray = [];
+            //       const fileName = element.substring(element.lastIndexOf("/") +1);
+            //       tempArray.push(`<a href="${element}">${fileName}</a><br />`);
+            //       newArray[index] = tempArray;
+            //     });
+            //     console.log(`${newArray}`);
+            //     gridjs.html(`${newArray}`);
+            //     // console.log(cell);
+            //     // gridjs.html(`${cell} <br />`);
+            //     // let imagesList = [];
+            //     // cell.forEach(imageLink => {
+
+            //     //   const fileName = imageLink.substring(imageLink.lastIndexOf("/") +1);
+            //     //   const imageHref = `<a href="${imageLink}" target="_blank">${fileName}</a>`;
+            //     //   imagesList.push(`${imageHref}<span uk-icon="link"></span><br />`);
+            //     // });
+            //     // // console.log(imagesList);
+            //     // gridjs.html(imagesList);
+            //   }
+            // }
+          ],
+          sort: true,
+          search: true,
+          pagination: {
+            limit: 20
+          },
+          language: {
+            "search": {
+              "placeholder": "Search..."
+            },
+          },
+          width: "90%",
+          data: value,
+          style: {
+            th: {
+              "text-align": "center"
+            },
+            td: {
+              "text-align": "center"
+            }
+          }
+        }).render(document.getElementById("wrapper"));
+      });
+
+      // const table = document.getElementById("table-body");
+
+      // console.log(getResults);
+      //   document.getElementById("characters").style.visibility = "visible";
+      //   hideSpinner();
+      //   table.style.visibility = "visible";
+      //   getAllCharacters.forEach(character => {
+      //     let row = table.insertRow();
+      //     let name = row.insertCell(0);
+      //     if (character.name === null) {
+      //       name.innerText = character.id;
+      //     } else {
+      //       name.innerText = character.name;
+      //     }
+      //     let quirk = row.insertCell(1);
+      //     quirk.innerText = character.quirk;
+      //     let description = row.insertCell(2);
+      //     description.innerText = character.description;
+      //     let bday = row.insertCell(3);
+      //     bday.innerText = character.birthday;
+      //     let images = row.insertCell(4);
+      //     let imagesList = [];
+      //     character?.images.forEach((image) => {
+      //       const fileName = image.substring(image.lastIndexOf("/") +1);
+      //       const link = `<a href="${image}" target="_blank">${fileName}</a>`;
+      //       imagesList.push(`${link}<span uk-icon="link"></span><br />`);
+      //     })
+      //     images.innerHTML = imagesList;
+      //     console.log(character);
+      //   });
+      // }
+      // getResults().then((value) => console.log(value));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.2/dist/css/uikit.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.2/dist/js/uikit.min.js"></script>
+  </head>
+  <body>
+    <center>
+      <div id="wrapper">
+        <div id="spinner" uk-spinner></div>
+        <div>Name: <span id="name"></span>
+        <div id="images" align="center"></div>
+        </p>
+      </div>
+    </center>
+
+    <script>
+      const createImageNode = (fileName, altText) => {
+        const img = new Image();
+        img.src = fileName;
+        img.alt = fileName;
+        img.width = "200";
+
+        return img;
+      }
+      fetch('https://myheroacademiaapi.com/api/character/Eijiro_Kirishima')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("spinner").style.display = 'none';
+          document.getElementById("name").innerText = data.name;
+          data?.images.forEach(img => {
+            arrayImagesElement = document.getElementById("images");
+            arrayImagesElement.appendChild(createImageNode(img));
+            console.log(img);
+
+          });
+          // if (data?.success) {
+          //   console.log("WE GOT A SUCCESS");
+          //   const firstImage = data.data.memes[0];
+          //   console.log(`first image url ${firstImage.url}`);
+          //   // const imageUrl = data?.memes[0]?.url;
+          //   document.getElementById("element").innerHTML = `<img src="${firstImage.url}">`;
+          // } else {
+          //   console.log("THERE WAS AN ERROR");
+          //   document.getElementById("element").innerText = "Error";
+          // }
+        })
+        .catch(error => console.log(`ERROR: ${error}`));
+    </script>
+  </body>
+</html>
