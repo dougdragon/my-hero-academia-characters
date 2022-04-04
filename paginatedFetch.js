@@ -16,5 +16,9 @@ const paginatedFetch = (
       }
 
       return response;
+    })
+    .catch(error => {
+      console.log(`There was an error fetching from the API: ${error}`);
+      return error;
     });
 }
